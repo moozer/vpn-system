@@ -1,0 +1,6 @@
+[submodule "roles/router-simple"]
+	path = roles/router-simple
+	url = https://github.com/moozer/ansible-role-router-single.git
+[submodule "roles/server-openvpn"]
+	path = roles/server-openvpn
+	url = https://github.com/moozer/ansible-server-openvpn.git

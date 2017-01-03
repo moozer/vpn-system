@@ -1,0 +1,18 @@
+#!/bin/sh
+MGNTIFACE="eth0"
+
+if [ "$IFACE" = "$MGNTIFACE" ]; then
+    route del default gw 192.168.121.1
+    logger removing default gw
+    echo removing default gw
+else
+    echo not removing default gw
+fi
+
+
+
+
+
+
+
+

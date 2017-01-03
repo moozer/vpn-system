@@ -1,0 +1,59 @@
+# setup of router with NAT, DHCP and DNS.
+
+- hosts: routers
+  # user vagrant and sudo is the vagrant way 
+  user: vagrant
+  become: yes
+
+  roles:
+  - router-simple
+
+  vars_files:
+  - common_vars.yml
+
+  vars:
+  - NAT_inside: 
+    - vio2
+    - vio3
+  - NAT_outside: vio1
+  - dhcpd_if: "{{ NAT_inside }}"
+  - mgnt_if: vio0
+  
+  - LAN_params:
+      vio1: "{{ LAN_upstream }}"
+      vio2: "{{ LAN_A }}"
+      vio3: "{{ LAN_B }}"
+
+  - ip_addresses:
+      vio0: dhcp
+      vio1: "10.10.0.5"
+      vio2: "{{ LAN_A.gateway }}"
+      vio3: "{{ LAN_B.gateway }}"
+    
+  - forward_list:
+    - { hostip: 10.10.20.5, srcport: 80, dstport: 800 }
+    
+#  handlers:
+#  - include: XXXrouter-simple/handlers/restart-OpenBSD.yml
+
+# config is handled by vagrant, but I us a common role that supports something like this.
+- hosts: servers
+  # user vagrant and sudo is the vagrant way 
+  user: vagrant
+#  sudo: yes
+
+  vars:
+  - router_name: router
+
+  vars_files:
+  - common_vars.yml
+
+  tasks:
+  - include: test-network.yml
+
+#
+#  vars:
+#  - lan_params:
+#    # not setting ip4, defaults to using dhcp
+#    eth1: LAN_A
+#

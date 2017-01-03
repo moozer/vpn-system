@@ -1,0 +1,34 @@
+# network tests to be run on the workstations
+# will during during --check also
+# and will never be marked as "changed"
+
+- name: waiting for server to serve dhcp
+  shell: /bin/sh /vagrant/waitForDhcp.sh
+  changed_when: False
+  sudo: yes
+  tags: tests
+
+- name: ping internet ip (8.8.8.8 - no DNS)
+  shell: /bin/ping -c 1 8.8.8.8
+  always_run: True
+  changed_when: False
+  tags: tests
+
+- name: ping named server (google.com - with DNS)
+  shell: /bin/ping -c 1 google.com
+  always_run: True
+  changed_when: False
+  tags: tests
+
+- name: ping router by name (local dns test)
+  shell: "/bin/ping -c 1 {{ router_name }}"
+  always_run: True
+  changed_when: False
+  tags: tests
+
+- name: traceroute check (check that router is used)
+  shell: "/usr/bin/traceroute 8.8.8.8 | grep ^' 2' | grep {{ LAN_upstream.gateway }}"
+  always_run: True
+  changed_when: False
+  tags: tests
+

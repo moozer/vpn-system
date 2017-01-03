@@ -1,0 +1,23 @@
+# vars to be reused across servers
+
+# -- defining the relevant networks
+LAN_upstream:
+  gateway: "10.10.0.1"
+  subnet: "10.10.0.0"
+  netmask: "255.255.255.0"
+
+LAN_A:
+  # gateway is not x.x.x.1 due to libvirts handling of networks
+  gateway: 10.10.10.5 
+  netmask: "255.255.255.0"
+  subnet: "10.10.10.0"
+  dhcp_range_low: "10.10.10.100"
+  dhcp_range_high: "10.10.10.150" 
+
+LAN_B:
+  # gateway is not x.x.x.1 due to libvirts handling of networks
+  gateway: 10.10.20.5
+  netmask: "255.255.255.0"
+  subnet: "10.10.20.0"
+  dhcp_range_low: "10.10.20.100"
+  dhcp_range_high: "10.10.20.150"
